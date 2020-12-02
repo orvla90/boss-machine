@@ -10,33 +10,16 @@ const {
   deleteAllFromDatabase,
 } = require('./db');
 
+// Use minions router
+const minionsRouter = require('./minionsRouter');
+apiRouter.use('/minions', minionsRouter);
 
-// GET all
-apiRouter.get('/minions', (req, res, next) => {
-    const minions = getAllFromDatabase('minions');
-    if(minions){
-        res.send(minions);
-    } else {
-        res.status(404).send()
-    }
-     
-})
+// Use ideas router
+const ideasRouter = require('./ideasRouter');
+apiRouter.use('/ideas', ideasRouter);
 
-// POST
-apiRouter.post('/', (req, res, next) => {
-    if(req.query.id && req.query.data){
-        const minionToAdd = {"name":req.query.name, "title":req.query.title, "weaknesses": req.query.weaknesses, "salary": req.query.salary};
-        const newMinion = addToDatabase('minions', minionToAdd);
-    } else {
-        res.status(404).send('Not a valid Minion')
-    }
-    
-})
-
-// GET by minionId
-
-// PUT (update minion)
-
-// DELETE
+// Use meetings router
+const meetingsRouter = require('./meetingsRouter');
+apiRouter.use('/meetings', meetingsRouter);
 
 module.exports = apiRouter;
